@@ -1,7 +1,28 @@
 import connectDB from "./db/index.js";
+import express from "express";
+const app = express();
 
 
-connectDB()
+connectDB().
+// then(()=>{
+//     app.on("error", (err)=>{
+//         console.error("Error connecting to MongoDB:", err);
+//         throw err;
+//     })
+// }
+// ).
+then(()=>{
+    app.listen(process.env.PORT || 8000, ()=>{
+        if(!process.env.PORT){
+            console.log("PORT is not defined in .env file, using default port 8000");
+        }
+        else console.log(`Server is running on port ${process.env.PORT}`);
+    })
+}
+).
+catch((err)=>{
+    console.log("Mongo db connection failed !!", err)
+})
 
 
 
